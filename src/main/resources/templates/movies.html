@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TMDB Movie Recommendation System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVIGATION BAR ================= -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            TMDB <span>Movie</span>
+        </div>
+
+        <div class="nav-links">
+
+            <a href="/">Home</a>
+
+            <a href="#movies">Movies</a>
+
+            <a href="#popular">Popular</a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= HERO SECTION ================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <p class="small-title">
+                WELCOME TO
+            </p>
+
+            <h1>
+                TMDB Movie<br>
+                Recommendation System
+            </h1>
+
+            <p>
+                Explore thousands of movies and discover
+                your next favourite film.
+            </p>
+
+            <a href="#movies" class="explore-btn">
+                Explore Movies
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= MOVIE SECTION ================= -->
+
+    <section class="movie-section" id="movies">
+
+
+        <!-- Section Header -->
+
+        <div class="section-header">
+
+            <h2>
+                🎬 Movies
+            </h2>
+
+            <span
+                th:text="${#lists.size(movies) + ' Movies'}">
+                Movies
+            </span>
+
+        </div>
+
+      <!-- ================= SEARCH ================= -->
+
+<div class="search-container">
+
+    <form action="/movies" method="get">
+
+        <input
+            type="text"
+            name="title"
+            placeholder="Search movies..."
+            th:value="${searchTitle}">
+
+        <button type="submit">
+            🔍 Search
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- ================= MOVIES ================= -->
+
+<div class="movie-grid">
+
+    <div
+        class="movie-card"
+        th:each="movie : ${movies}">
+
+
+        <!-- ================= POSTER ================= -->
+
+        <div class="poster-container">
+
+            <!-- Actual poster -->
+            <div
+                th:if="${movie.posterPath != null}"
+                class="poster-wrapper">
+
+                <img
+                    th:src="${'https://image.tmdb.org/t/p/w500' + movie.posterPath}"
+                    th:alt="${movie.title + ' poster'}"
+                    class="movie-poster">
+
+            </div>
+
+
+            <!-- No poster -->
+            <div
+                th:if="${movie.posterPath == null}"
+                class="poster-placeholder">
+
+                <div class="placeholder-icon">
+                    🎬
+                </div>
+
+                <div class="placeholder-text">
+                    NO POSTER
+                </div>
+
+                <div
+                    class="placeholder-title"
+                    th:text="${movie.title}">
+
+                    Movie Title
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= MOVIE ID ================= -->
+
+        <div
+            class="movie-number"
+            th:text="${movie.id}">
+
+            1
+
+        </div>
+
+
+        <!-- ================= MOVIE CONTENT ================= -->
+
+        <div class="movie-content">
+
+
+            <!-- Title -->
+
+            <h3
+                th:text="${movie.title}">
+
+                Movie Title
+
+            </h3>
+
+
+            <!-- Movie Information -->
+
+            <div class="movie-info">
+
+                <span>
+                    ⭐
+                    <strong th:text="${movie.voteAverage}">
+                        7.5
+                    </strong>
+                </span>
+
+                <span>
+                    👥
+                    <strong th:text="${movie.voteCount}">
+                        1000
+                    </strong>
+                </span>
+
+                <span th:text="${movie.releaseDate}">
+                    2020-01-01
+                </span>
+
+            </div>
+
+
+            <!-- Overview -->
+
+            <p
+                class="overview"
+                th:text="${movie.overview}">
+
+                Movie overview
+
+            </p>
+
+
+            <!-- Genres -->
+
+            <div class="genre">
+
+                <span
+                    th:each="genre : ${movie.genresList}"
+                    th:text="${genre}">
+
+                    Genre
+
+                </span>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            TMDB Movie Recommendation System
+        </p>
+
+        <p class="footer-small">
+            Built with Java Spring Boot + MySQL + Thymeleaf
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>
